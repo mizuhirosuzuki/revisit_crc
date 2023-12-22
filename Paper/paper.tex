@@ -1,0 +1,561 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{pdflscape}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fullpage}
+\usepackage{gensymb, comment}
+\usepackage{textcomp}
+\usepackage{threeparttable}
+\usepackage{graphicx}
+\usepackage[sort]{natbib}
+\usepackage{setspace} 
+\doublespacing
+\usepackage{indentfirst}
+\setlength{\parindent}{25pt}
+\usepackage{bbm}
+\usepackage{multicol}
+\usepackage{makecell}
+\usepackage{booktabs}
+\newtheorem{prop}{Proposition} 
+\newtheorem{assumption}{Assumption} 
+\newtheorem{implication}{Implication} 
+\usepackage{longtable}
+
+\setcounter{totalnumber}{8}
+
+\title{Revisiting Correlated Random Coefficient Model in Technology Adoption}
+\author{
+  Mizuhiro Suzuki\thanks{
+    Contact: mizuhiro.suzuki@gmail.com.
+  }
+}
+\date{\today}
+
+\begin{document}
+  
+\maketitle
+\begin{abstract}
+  \singlespacing
+    \noindent 
+    I revisit a correlated random coefficient model to estimate heterogeneous returns to technology and investigate its validity.
+    I construct a canonical model and show that the identification assumption is violated if a farmer behaves following the model. 
+    I also demonstrate that, with the existence of transitory shocks farmers know at the time of technology adoption, the method used in the previous studies cannot remove the bias of estimates.
+    I argue the importance of a theoretical model in discussing identification assumptions in empirical research. \\
+
+  \medskip
+  \noindent Keywords: technology adoption, agriculture, productivity, estimation method
+\end{abstract}
+
+\newpage
+
+\section{Introduction}
+
+The low adoption rates of productive technologies among small agricultural producers in developing countries has been a long-lasting puzzle in development economics. 
+The literature has explored the answer to this puzzle from a variety of perspectives.
+For instance, learning about a new technology and its externality incentives farmers to wait for their neighbors to adopt first \citep{foster1995learning, conley2010learning}, or credit constraints can prevent farmers from borrowing enough funds to adopt a new technology \citep{gine2006credit}.\footnote{
+  This topic is surveyed in detail by \citet{foster2010microeconomics}.
+}
+Given the importance of improved productivity potentially brought by new technologies, it is crucial to understand the reason for the slow adoption of such technology and to explore the solution to speed up the process of technological diffusion in developing countries.
+
+One potential explanation for such low adoption rate is heterogeneity in returns to technology.
+Whereas it may seem that a given technology is productive and has a potential to improve income of households, this might not be the case for everyone.
+In particular, farmers with low returns can decide not to adopt the new technology as a result of his profit-maximization behavior.
+To explore this possibility, \cite{Suri11} proposes an estimation method for heterogeneous benefits from the new technology.
+With this newly developed method, she finds that cost difference drives differential adoption of the hybrid seeds across farmers in Kenya.
+Applying this method, \cite{Michler2019} show that returns for profits to improved chickpea in Ethiopia are different across adopters and non-adopters.
+They also discusses that, rather than the return in terms of yield, the return in profit matters for adoption of new technology.
+
+In this paper, I revisit the model and estimation method proposed by \cite{Suri11}, namely a correlated random coefficient (CRC) model, and investigates when the identification assumption can be satisfied or violated.
+I argue that, while the proposed estimation method is of use in situations where identification assumptions are satisfied to identify differences in returns to a new technology, users of this method should be aware that this does not come without any cost.
+In particular, I show that in a standard behavioral model of a profit maximizing farmer, identification assumptions can be violated.
+This suggests that users should have models in mind and check if the identification assumptions are satisfied in their models.
+
+I develop a canonical model of profit-maximizing farmer and explicitly derive the farmer's profit maximization condition.
+Based on this, this paper provides two findings on a CRC model.
+First, I show that a CRC model's assumption is violated according to the model when there are technology-specific costs.
+In particular, I demonstrate that a correlation between technology adoption choice and a farmer's general productivity causes biased estimates.
+I present simulation results to strengthen this argument by showing the estimates for heterogeneous returns to technology.
+
+Secondly, I show the issue which arises when there are transitory shocks which farmers can observe before they decide which technology to adopt.
+The previous studies in the literature deal with such situations by controlling for the observed transitory shocks directly.
+I use a model and simulation results to show that this solution is insufficient to fix the problem and the bias in estimates remains.
+
+This paper mainly contributes to the literature of technology adoption and, in particular, the literature of estimating returns to technology.
+As a process for low-income people to get out of poverty and to mitigate food insecurity in developing countries, productive technology and its adoption have been paid a great attention to in the literature \citep{feder1985adoption}.
+Existing studies have explored the drivers the adoption behaviors, such as education \citep{weir2000adoption}, wealth \citep{moser2006complex}, and risks \citep{dercon2011consumption}.
+In terms of heterogeneity in returns, there exist studies looking at observable differences across farmers, such as education \citep{foster1996technical}.
+More recent studies point out the importance of unobserved differences in determining the returns, such as soil quality \citep{munshi2004social, foster2010microeconomics}.
+I contribute to this literature by pointing out issues in an existing methodology for future development of methods precisely estimating heterogeneous returns to technology.
+
+It should be emphasized that this paper does not intend to criticize particular papers.
+As I will show below, a canonical economic model implies that the identification assumption in the previously proposed CRC model is not satisfied.
+However, as said, ``all models are wrong but some are useful'', and different models reflect realities better in different contexts.
+Recent studies have found the behavior deviating from a standard economic model and the importance of behavioral effect in technology adoption in developing countries, such as present bias \citep{duflo2011nudging} and a sunk-cost effect \citep{ashraf2010can}.
+Rather, the goal of this paper is to demonstrate how useful a simple economic model can be to guide identification assumptions in empirical analyses.
+
+The paper proceeds as follows.
+Section \ref{sec:tau} explains the model set up and discusses the first issue about the correlation between technology adoption and a farmer's productivity.
+The issue related to the observed transitory shocks at the time of adoption decision making is explored in Section \ref{sec:covar}.
+Section \ref{sec:conclusion} concludes.
+
+\section{Correlation between technology adoption and unobserved productivity}\label{sec:tau}
+\subsection{Model setup}
+
+In this section, I construct a two-period model of a profit-maximizing farmer who decides whether to adopt a new technology or not.
+Consider the following Cobb-Douglas production functions of new and traditional technologies:
+\begin{align*}
+  Y_{it}^N &= e^{\beta^N} \left(\prod_{j=1}^k X_{ijt}^{\gamma_j^N} \right) e^{u_{it}^N} \\
+  Y_{it}^T &= e^{\beta^T} \left(\prod_{j=1}^k X_{ijt}^{\gamma_j^T} \right) e^{u_{it}^T}.
+\end{align*}
+where $N$ and $T$ stand for new and traditional, respectively.
+The production outputs of a farmer $i$ at time $t$ are $Y_{it}^N$ and $Y_{it}^N$.
+Inputs are denoted as $X_{ijt}$ ($j = 1, \dots, k$).
+Technology-specific productivity is captured by $\beta^N$ and $\beta^T$, and I assume that there is no uncertainty in them.
+
+Following \cite{Suri11}, the unobserved productivities, $u_{it}^N$ and $u_{it}^T$, are assumed to have the following structures:
+\begin{align*}
+  u_{it}^N &= \theta_i^N + \xi_{it}^N \\
+  u_{it}^T &= \theta_i^T + \xi_{it}^T.
+\end{align*}
+Without loss of generality, I assume that $E[u_{it}^N] = 0$ and $E[u_{it}^T] = 0$.\footnote{
+  If the expectation values are non-zero, then we can add the means to $\beta_t^N$ (or $\beta_t^T$) to make the expectations of $u_{it}^N$ and $u_{it}^T$ be 0.
+}
+I also assume, without loss of generality, that $E[\theta_i^N] = 0$, $E[\theta_i^T] = 0$, $E[\xi_{it}^N] = 0$, and $E[\xi_{it}^T] = 0$, since $E[u_{it}^N] = 0$ and $E[u_{it}^T] = 0$.\footnote{
+  Again, if their expectations are not zero, we can add appropriate numbers to make them zero.
+}
+The (per-area) profit functions are
+\begin{align*}
+  \pi_{it}^k &= p Y_{it}^k - \sum_{j=1}^k w_{ijt} X_{ijt}^k
+\end{align*}
+where $p$ is the output price of maize, for both new and traditional technologies.\footnote{
+  \citet{Suri11} also assumes that the price of hybrid and non-hybrid maizes are identical.
+}
+For simplicity, I ignore the uncertainty and seasonality of the maize price.
+The superscript $k$ indicates the new or traditional ($k \in \{N, T\}$).
+The amount of an input $j$ per area and its price are denoted as $X_{ijt}^k$ and $w_{ijt}$, respectively.
+The input prices differ across farmers and time due to, for example, differential distances from farmers to shops and the degree of competitiveness in the input market.
+I assume that the input prices are independent of the productivity of farmers. 
+
+To focus on the identification problem due to the unobserved heterogeneity, I make a simplifying assumption that the inputs are exogenous.
+That is, the inputs are technology-specific and fixed per area.
+This allows us to ignore the further endogeneity caused by input decisions.
+In particular, by defining the followings,
+\begin{align*}
+  &A^N = \prod_{j = 1}^k \left( X_{ijt}^N \right)^{\gamma_j^N}, \quad A^T = \prod_{j = 1}^k \left( X_{ijt}^T \right)^{\gamma_j^T}, \\
+  &C_{it}^N = \sum_{j = 1}^k w_{ijt} X_{ijt}^N, \quad C_{it}^T = \sum_{j = 1}^k w_{ijt} X_{ijt}^T,
+\end{align*}
+the production functions and profit functions are represented by
+\begin{align*}
+  Y_{it}^k &= e^{\beta^k} A^k e^{u_{it}^k} = e^{B^k} e^{u_{it}^k} \\
+  \pi_{it}^k &= p Y_{it}^k - C_{it}^k,
+\end{align*}
+where $B^k = \beta^k + \log(A^k)$.
+
+Following \citet{Suri11}, I make the following two assumptions.
+First, farmer-specific unobserved productivities, $\theta_i^N$ and $\theta_i^T$, are known to the farmer before the production decision.
+Secondly, $\xi_{it}^N$ and $\xi_{it}^T$ do not affect the hybrid decisions and input decisions.
+These can include rainfall shocks realized after these decisions are made.\footnote{
+  This is in contrast to the specification in, for example, \citet{OP96}, in which the transitory errors are decomposed into two parts: anticipatory shock and non-anticipatory shock.
+  The former affects decision making of firms.
+  The case in which the time-variant shocks affect the technology adoption choice is discussed in Section \ref{sec:covar}.
+}
+
+Following \cite{Lemieux98}, $\theta_i^N$ and $\theta_i^T$ are decomposed as 
+\begin{align*}
+  \theta_i^N &= b_N (\theta_i^N - \theta_i^T) + \tau_i, \\
+  \theta_i^T &= b_T (\theta_i^N - \theta_i^T) + \tau_i,
+\end{align*}
+where
+\begin{align*}
+  &b_N = \frac{\sigma_N^2 - \sigma_{NT}}{\sigma_N^2 + \sigma_T^2 - 2 \sigma_{NT}},\quad b_T = \frac{\sigma_{NT} - \sigma_T^2}{\sigma_N^2 + \sigma_T^2 - 2 \sigma_{NT}}, \\
+  &\sigma_{NT} = Cov(\theta_i^N, \theta_i^T),\quad \sigma_N^2 = Var(\theta_i^T),\quad \sigma_T^2 = Var(\theta_i^T).
+\end{align*}
+The term $\tau_i$ is interpreted as farmer $i$'s absolute advantage, which affects his productivity in the same manner regardless of the technology he uses.
+By defining the farmer-specific comparative advantage, $\theta_i$, as $\theta_i = b_T (\theta_i^N - \theta_i^T)$, we obtain
+\begin{align*}
+  \theta_i^N &= (\phi + 1) \theta_i + \tau_i, \\
+  \theta_i^T &= \theta_i + \tau_i,
+\end{align*}
+where $\phi = \frac{b_N}{b_T} - 1$.
+Note that, since $E[\theta_i^N] = 0$ and $E[\theta_i^T] = 0$, we know that $E[\theta_i] = 0$ and thus $E[\tau_i] = 0$.
+
+Using these notations, I can write the observed log-yield function as\footnote{Lowercase variables represent log of corresponding variables.}
+\begin{align}\label{eq:log_yield}
+  y_{it} &= h_{it} y_{it}^N + (1 - h_{it}) y_{it}^T \nonumber \\
+  &= h_{it} (B^N + u_{it}^N) + (1 - h_{it}) (B^T + u_{it}^T) \nonumber \\
+  &= h_{it} (B^N + (\phi + 1) \theta_i + \tau_i + \xi_{it}^N) + (1 - h_{it}) (B^T + \theta_i + \tau_i + \xi_{it}^T) \nonumber \\
+  &= B^T + \theta_i + (B^N - B^T) h_{it} + \phi \theta_i h_{it} + \tau_i + \epsilon_{it},
+\end{align}
+where $\epsilon_{it} = h_{it} \xi_{it}^N + (1 - h_{it}) \xi_{it}^T$.
+Notice that the ``treatment variable,'' $h_{it}$, is interacted with unobserved heterogeneity, $\theta_i$, in this equation.
+Therefore, this is in the class of the correlated random coefficient model.\footnote{
+  \cite{Wooldridge03} states that in a correlated random coefficient model, ``one or more `treatment variables', which could be continuous or discrete, or some combination, interact with unobserved heteroeneity - also called `random coefficients' - and the treatment variables and unobserved heterogeneity are allowed to be correlated.''
+}
+
+\subsection{Definition of return to technology}
+
+I define the return of the new technology as the percentage change in yield.
+With the equation (\ref{eq:log_yield}), the return of new technology for the farmer $i$ is
+\begin{align*}
+  R_{it} &\equiv \frac{Y_{it}^{N} - Y_{it}^{T}}{Y_{it}^{T}} \\
+         &\approx log(Y_{it}^{N}) - log(Y_{it}^{T}) \\
+         &= (B^N - B^T) + \phi \theta_i + (\xi_{it}^N - \xi_{it}^T),
+\end{align*}
+where the approximation in the second line is valid when the difference between $Y_{it}^N$ and $Y_{it}^T$ is sufficiently small.
+Thus, defining $B \equiv B^N - B^T$, the expected return is 
+\begin{equation*}
+  E_i[R_{it}] = B + \phi \theta_i.
+\end{equation*}
+The expectation is over the random productivity shocks ($\xi_{it}^N$ and $\xi_{it}^T$).\footnote{
+  \citet{Suri11} uses the same definition for returns to technologies.
+}
+
+To explore the heterogeneous returns to the new technology, I consider the difference in returns across farmers who adopt/did not adopt the new technology.
+Therefore, since there are two periods in the data, the goal is to identify
+\begin{equation*}
+  E[R_{it} | h_{i1}, h_{i2}] = B + \phi E[\theta_i | h_{i1}, h_{i2}].
+\end{equation*}
+
+\subsection{Technology adoption decision}
+
+The farmer adopts the hybrid maize if the expected profit of the new technology is higher than the that of the traditional technology:
+\begin{align*}
+  &\qquad E[\pi_{it}^N] \ge E[\pi_{it}^T] \\
+  &\Leftrightarrow p E\left[e^{\xi_{it}^N} \right] e^{B^N} e^{\theta_i^N}  - C_{it}^N \ge p E\left[e^{\xi_{it}^T} \right] e^{B^T} e^{\theta_i^T} - C_{it}^T \\
+  &\Leftrightarrow p E\left[e^{\xi_{it}^N} \right] e^{B^N} e^{(\phi + 1) \theta_i + \tau_i} - p E\left[e^{\xi_{it}^T} \right] e^{B^T} e^{\theta_i + \tau_i} \ge C_{it}^N - C_{it}^T.
+\end{align*}
+Therefore, the technology adoption function is represented as 
+\begin{equation}\label{eq:adoption}
+  h_{it} = \mathbbm{1}\{p E\left[e^{\xi_{it}^N} \right] e^{B^N} e^{(\phi + 1) \theta_i + \tau_i} - p E\left[e^{\xi_{it}^T} \right] e^{B^T} e^{\theta_i + \tau_i} \ge C_{it}^N - C_{it}^T\}.
+\end{equation}
+Unless production costs in the two technologies coincide (that is, $C_{it}^N = C_{it}^T$), $h_{it}$ depends on $\tau_i$.\footnote{
+  If $C_{it}^N = C_{it}^T$,
+  \begin{align*}
+    &\quad p E\left[e^{\xi_{it}^N} \right] e^{B^N} e^{(\phi + 1) \theta_i + \tau_i} - p E\left[e^{\xi_{it}^T} \right] e^{B^T} e^{\theta_i + \tau_i} \ge 0 \\
+    &\Leftrightarrow \log \left(p E\left[e^{\xi_{it}^N} \right] \right) + B^N + (\phi + 1) \theta_i + \tau_i \ge \log \left( p E\left[e^{\xi_{it}^T} \right] \right) + B^T + \theta_i + \tau_i,
+  \end{align*}
+  hence $\tau_i$ cancel out and $h_{it}$ does not depend on $\tau_i$ any more.
+}
+However, previous studies have found that there are technology-specific inputs.
+For instance, fertilizers and irrigation played a huge role in the Green Revolution and, all else equal, high-yielding varieties use more fertilizer than traditional varieties \citep{heisey2007fertilizers}.
+In the context of \citet{Suri11}, she finds that the fertilizer usage is higher in the hybrid variety of maize.
+Therefore, although depending on the context, it is likely that the input cost differs across technologies, which makes the technology choice dependent on $\tau_i$.
+
+\subsection{Estimation of a correlated random coefficient model}
+
+To identify the differential returns to technology, $\theta_i$ is projected onto the history of the technology adoption and their interactions:
+\begin{equation}\label{eq:linear_projection}
+  \theta_i = \lambda_0 + \lambda_1 h_{i1} + \lambda_2 h_{i2} + \lambda_3 h_{i1} h_{i2} + v_i.
+\end{equation}
+Note that, by the property of linear projection, $E[v_i] = 0$, $E[h_{i1} v_i] = 0$, $E[h_{i2} v_i] = 0$, and $E[h_{i1} h_{i2} v_i] = 0$.
+Substituting this $\theta_i$ into the equation (\ref{eq:log_yield}), I obtain the reduced-form equations
+\begin{align*}
+  y_{i1} &= \delta_1 + \gamma_1 h_{i1} + \gamma_2 h_{i2} + \gamma_3 h_{i1} h_{i2} + (v_i + \phi v_i h_{i1} + \tau_i + \epsilon_{i1}) \\
+  y_{i2} &= \delta_2 + \gamma_4 h_{i1} + \gamma_5 h_{i2} + \gamma_6 h_{i1} h_{i2} + (v_i + \phi v_i h_{i2} + \tau_i + \epsilon_{i2}),
+\end{align*}
+where
+\begin{align*}
+  \gamma_1 &= B + \lambda_1 + \phi (\lambda_0 + \lambda_1), \quad \gamma_2 = \lambda_2, \quad \gamma_3 = \lambda_3 + \phi (\lambda_2 + \lambda_3) \\
+  \gamma_4 &= \lambda_1, \quad  \gamma_5 = B + \lambda_2 + \phi (\lambda_0 + \lambda_2), \quad \gamma_6 = \lambda_3 + \phi (\lambda_1 + \lambda_3).
+\end{align*}
+Based on the reduced-form parameter estimates and their relationships with the structural parameters, I obtain the latter with the minimum distance method.\footnote{
+  One requirement to estimate the structural parameters is $\gamma_2 \ne \gamma_4$.
+  In most simulation exercise shown later in the paper, I confirm that $\widehat{\gamma_2}$ and $\widehat{\gamma_4}$ are statistically significantly different in most simulations.
+}
+
+There are four terms in the error term: $v_i$, $\phi v_i h_{it}$, $\tau_i$, and $\epsilon_{it}$.
+Since $v_i$ is the error term in the linear projection of $v_i$, $v_i$ does not cause an endogeneity problem.
+Also, since $h_{it}$ is a binary variable, $\phi v_i h_{i1}$ cannot be a source of endogeneity.\footnote{
+  For instance, $h_{i1}$ and $\phi v_i h_{i1}$ are uncorrelated since $E[h_{i1} \cdot \phi v_i h_{i1}] = \phi E[v_i h_{i1}] = 0$.
+}
+Therefore, the identification assumption for consistent estimates of $\gamma$'s is 
+\begin{align}
+  &E[\tau_i h_{i1}] = 0, \quad E[\tau_i h_{i2}] = 0, \quad E[\tau_i h_{i1} h_{i2}] = 0, \label{eq:tau_h} \\
+  &E[\epsilon_{it} h_{i1}] = 0, \quad E[\epsilon_{it} h_{i2}] = 0, \quad E[\epsilon_{it} h_{i1} h_{i2} h_{i2}] = 0. \label{eq:epsilon_h}
+\end{align}
+With the consistently estimated parameters, $\gamma$'s, we can obtain the consistent estimates of the structural parameters and hence the heterogeneous returns of a new technology.
+
+\subsection{Violation of the identification assumption}
+
+Remember that $\epsilon_{it} = h_{it} \xi_{it}^N + (1 - h_{it}) \xi_{it}^T$, and $\xi_{it}^N$ and $\xi_{it}^T$ are assumed not to affect the hybrid decisions and input decisions.
+Therefore, due to the independence between $h_{it}$ and $\xi_{it}$, $E[\epsilon_{it} h_{i1}] = E[\epsilon_{it} h_{i2}] = E[\epsilon_{it} h_{i1} h_{i2}] = 0$.
+On the other hand, the equation (\ref{eq:adoption}) shows that, with the existence of technology-specific costs, the technology adoption decision, $h_{it}$, depends on the farmer's absolute advantage, $\tau_i$.
+Due to the correlation between $h_{it}$ and $\tau_i$, $E[\epsilon_{it} h_{i1}], \ E[\epsilon_{it} h_{i2}], \ E[\epsilon_{it} h_{i1} h_{i2} h_{i2}]$ are not equal to zero.
+In other words, assuming that the canonical model built in the previous section reflects the reality, I cannot identify the structural parameters with the CRC model and hence cannot identify the heterogeneous returns to a technology.
+
+\subsection{Simulation results}\label{sec:sim_1}
+
+The discussion so far indicates the potential bias in the estimated returns to technology by a CRC model.
+I simulate data based on the model described above and use a CRC model to estimate returns to technology.
+Through this exercise, I demonstrate that they are biased due to the dependence of technology choice on absolute advantage of farmers.
+The parameters used in the simulations are described in Appendix.
+In each exercise, data are simulated 1,000 times.
+
+Before showing the estimated returns to technology, I show the estimated structural parameters.
+The results are shown in Figure \ref{fig:noinp_pm_B_phi}.
+The estimated parameters are substantially different from the true parameter values.
+This suggests that the returns to technology, which are calculated based on these parameters, are biased as well.
+
+\begin{figure}[H]
+  \centering
+  \caption{Estimated $B$ and $\phi$ (true values: $B = 1$, $\phi = -0.44$)}
+  \includegraphics[width = 0.6\textwidth]{../Figures/noinp_pm_B_phi.pdf}
+  \label{fig:noinp_pm_B_phi}
+  \footnotesize
+  \begin{tablenotes}
+    \item Notes:
+      The figures show the estimated $B$ and $\phi$.
+      The red vertical lines show the true parameter values.
+  \end{tablenotes}
+\end{figure}
+
+Figure \ref{fig:noinp_pm_return} presents the degree of biases in returns to technology of each farmer type: 
+Never adopters, who never adopted the new technology,
+early adopters, who used the new technology only in the first period,
+late adopters, who used the new technology only in the second period, and
+always adopters, who used the new technology in both periods.
+The estimated returns are severely biased for never adopters and always adopters.
+Those of the early and late adopters are consistently estimated, which is actually not surprising.
+Since these farmers use both technologies, simple differences in average yields in the two technologies provide consistent estimates of returns to technology.
+The real challenge is the estimate of returns for those who have experienced only either of the two technologies (that is, never adopters and always adopters), and Figure \ref{fig:noinp_pm_return} shows that their returns are not consistently estimated.
+
+\begin{figure}[H]
+  \centering
+  \caption{Biases in returns to technology}
+  \includegraphics[width = 0.6\textwidth]{../Figures/noinp_pm_return.pdf}
+  \label{fig:noinp_pm_return}
+  \footnotesize
+  \begin{tablenotes}
+    \item Notes:
+      The figures show the differences between the estimated and true returns to technology by farmers' types.
+      Red vertical lines are for a 0 difference from the true return to technology.
+      Returns are defined as $B + \phi E[\theta_i | h_{i1}, h_{i2}]$, where $B$ is the difference in technology-specific productivity between new and traditional technologies, $\theta_i$ is farmer-specific comparative advantage.
+      Farmers are grouped into the following four categories based on their technology adoption histories:
+      never adopters: $h_{i1} = h_{i2} = 0$, 
+      early adopters: $h_{i1} = 1, \ h_{i2} = 0$, 
+      late adopters: $h_{i1} = 0, \ h_{i2} = 1$, and
+      always adopters: $h_{i1} = h_{i2} = 1$.
+  \end{tablenotes}
+\end{figure}
+
+To demonstrate that this bias is caused by the dependence of technology adoption decision on the absolute advantage of farmers, $\tau_i$, I provide a CRC model results with data simulated assuming that farmers ignore $\tau_i$ when deciding which technology to use.
+The results are shown in Figure \ref{fig:noinp_nopm_return}.
+As expected, the estimated returns are not biased and distributed around the true returns.\footnote{
+  The structural parameter estimates in this scenario are shown in Appendix Figure \ref{fig:noinp_nopm_B_phi}.
+}
+
+\begin{figure}[H]
+  \centering
+  \caption{Biases in returns to technology when a farmer ignores his absolute advantage in technology adoption decisions}
+  \includegraphics[width = 0.6\textwidth]{../Figures/noinp_nopm_return.pdf}
+  \label{fig:noinp_nopm_return}
+  \footnotesize
+  \begin{tablenotes}
+    \item Notes:
+      The figures show the differences between the estimated and true returns to technology by farmers' types.
+      Red vertical lines are for a 0 difference from the true return to technology.
+      Returns are defined as $B + \phi E[\theta_i | h_{i1}, h_{i2}]$, where $B$ is the difference in technology-specific productivity between new and traditional technologies, $\theta_i$ is farmer-specific comparative advantage.
+      Farmers are grouped into the following four categories based on their technology adoption histories:
+      never adopters: $h_{i1} = h_{i2} = 0$, 
+      early adopters: $h_{i1} = 1, \ h_{i2} = 0$, 
+      late adopters: $h_{i1} = 0, \ h_{i2} = 1$, and
+      always adopters: $h_{i1} = h_{i2} = 1$.
+  \end{tablenotes}
+\end{figure}
+
+
+\section{Covariates observed before technology adoption decisions}\label{sec:covar}
+
+In the previous section, it is assumed that the unobserved productivity is decomposed into time-invariant heterogeneity, $\theta_i^k$, which is known to a farmer, and time-variant shocks, $\xi_{it}^k$, which is unknown before his technology adoption decision.
+The timing of the latter is essential to guarantee that the technology adoption is uncorrelated with technology adoption and to guarantee that the identification assumptions in the equation (\ref{eq:epsilon_h}).
+However, there could be time-invariant shocks that farmer knows before their decision on which technology to use.
+For instance, \citet{Suri11} points out that family demographic changes due to death of adult members can impact the quality of labor and hence affect both technology adoption decisions and productivity.
+Ignoring such shocks, the technology adoption decision and time-variant shocks are correlated and, even if we assume that the absolute advantage, $\tau_i$ does not cause a bias, the estimates of returns to technology still suffer biases.
+
+To deal with this situation, previous papers in the literature have directly included variables to control for such shocks.\footnote{
+  \citet{Michler2019}, for example, includes such variables as household head gender, dependents ratio in a household, and off-farm income in regressions to control for shocks realized before planting decision.
+}
+In this section, I demonstrate that this is imperfect in solving the issue and the bias remains even after controlling for pre-decision shocks.
+
+\subsection{Model}
+
+Consider a time-variant shock, $Z_{it}$, which is known by a farmer before his technology adoption decision.
+I assume that $Z_{it}$ has a zero mean and is independent of a farmer's productivity.
+The Cobb-Douglas production functions become
+\begin{align*}
+  Y_{it}^N &= e^{B^N} e^{(\phi + 1) \theta_i + \tau_i + \rho Z_{it} + \xi_{it}^N} \\
+  Y_{it}^T &= e^{B^T} e^{\theta_i + \tau_i + \rho Z_{it} + \xi_{it}^N},
+\end{align*}
+where, for simplicity, the coefficient of $Z_{it}$ is assumed to be the same in the two equations.
+The observed log-yield function is
+\begin{equation*}
+  y_{it} = B^T + \theta_i + B h_{it} + \phi \theta_i h_{it} + \rho Z_{it} + \tau_i + \epsilon_{it},
+\end{equation*}
+and an adoption function becomes
+\begin{equation}\label{eq:adoption}
+  h_{it} = \mathbbm{1}\{p E\left[e^{\xi_{it}^N} \right] e^{B^N} e^{(\phi + 1) \theta_i + \rho Z_{it} + \tau_i} - p E\left[e^{\xi_{it}^T} \right] e^{B^T} e^{\theta_i + \rho Z_{it} + \tau_i} \ge C_{it}^N - C_{it}^T\}.
+\end{equation}
+By using the linear projection in the equation (\ref{eq:linear_projection}), I obtain a similar reduced-form regression equations as before:
+\begin{align*}
+  y_{i1} &= \delta_1 + \gamma_1 h_{i1} + \gamma_2 h_{i2} + \gamma_3 h_{i1} h_{i2} + \rho Z_{i1} + (v_i + \phi v_i h_{i1} + \tau_i + \epsilon_{i1}), \\
+  y_{i2} &= \delta_2 + \gamma_4 h_{i1} + \gamma_5 h_{i2} + \gamma_6 h_{i1} h_{i2} + \rho Z_{i2} + (v_i + \phi v_i h_{i2} + \tau_i + \epsilon_{i2}).
+\end{align*}
+
+To consistently estimate the parameters, on top of the identification assumptions in equations (\ref{eq:tau_h}) and (\ref{eq:tau_h}), $Z_{it}$ and each variable in the error terms need to be uncorrelated as well.
+However, $Z_{it}$ and $v_i$ are correlated for the following reason.
+Remember that $Z_{it}$ is independent of a farmer's productivity.
+Hence, $Z_{it}$ and $\theta_i$ are independent.
+Therefore, from the equation (\ref{eq:linear_projection}), 
+\begin{align*}
+  E[Z_{it} v_i] 
+  &= E[Z_{it} \theta_i] - \lambda_0 E[Z_{it}] - \lambda_1 E[h_{i1} Z_{it}] - \lambda_2 E[h_{i2} Z_{it}] - \lambda_3 E[Z_{it} h_{i1} h_{i2}] \\
+  &=  - \lambda_1 E[h_{i1} Z_{it}] - \lambda_2 E[h_{i2} Z_{it}] - \lambda_3 E[Z_{it} h_{i1} h_{i2}].
+\end{align*}
+Since $Z_{it}$ and $h_{it}$ are correlated, this means that $E[Z_{it} v_i] \ne 0$.
+
+Therefore, even if the pre-decision shocks are sufficiently controlled for by $Z_{it}$ and $\tau_i$ is not correlated with the technology adoption, the estimates are inconsistent.
+This causes a bias in returns to technology, as shown in the numerical simulations below.
+
+\subsection{Simulation results}
+
+As in the exercise in Section \ref{sec:sim_1}, I simulate the data, but this time with transitory shocks realized before technology adoption.
+In this simulation, farmers ignore $\tau_i$ in technology adoption decisions so that the issue raised in Section \ref{sec:tau} is ignored and I focus on the discussion of the impact of transitory shocks.
+
+I show estimated results with a CRC model where the observed part of transitory shocks are controlled for in the reduced-form regressions.
+The results are presented in Figure \ref{fig:covar_nopm_return}.\footnote{
+  The results without controlling for such shocks are obviously biased since farmers make technology adoption decisions after a part of transitory shocks, which necessarily correlate technology adoption and the unobserved shocks. 
+  Appendix Figure \ref{fig:covar_nopm_return_Z_ignore} present the results.
+}
+Consistent with what was shown in the previous section, the returns are estimated inconsistently.\footnote{
+  The coefficient of the observed part of the transitory shocks, $\rho$, is estimated with a bias as well (Figure \ref{fig:covar_nopm_rho}).
+}
+This indicates that, with the existence of time-variant shocks that are observable to farmers before decision makings, simply controlling for such shocks in the reduced-form equations does not solve the problem in a CRC model.
+
+\begin{figure}[H]
+  \centering
+  \caption{Biases in returns to technology with pre-decision shocks controlled for}
+  \includegraphics[width = 0.6\textwidth]{../Figures/covar_nopm_return.pdf}
+  \label{fig:covar_nopm_return}
+  \footnotesize
+  \begin{tablenotes}
+    \item Notes:
+      The figures show the differences between the estimated and true returns to technology by farmers' types.
+      Red vertical lines are for a 0 difference from the true return to technology.
+      Returns are defined as $B + \phi E[\theta_i | h_{i1}, h_{i2}]$, where $B$ is the difference in technology-specific productivity between new and traditional technologies, $\theta_i$ is farmer-specific comparative advantage.
+      Farmers are grouped into the following four categories based on their technology adoption histories:
+      never adopters: $h_{i1} = h_{i2} = 0$, 
+      early adopters: $h_{i1} = 1, \ h_{i2} = 0$, 
+      late adopters: $h_{i1} = 0, \ h_{i2} = 1$, and
+      always adopters: $h_{i1} = h_{i2} = 1$.
+  \end{tablenotes}
+\end{figure}
+
+\section{Conclusion}\label{sec:conclusion}
+
+Low adoption rate of new and productive technologies and precise estimation of returns to technology have been a central topic in development and agricultural economics for a long period of time.
+To answer this puzzle, \citet{Suri11} proposes a method to estimate heterogeneous returns to technology, and the method has been used by other researchers, such as \citet{Michler2019}.
+In this paper, I show that the identification assumption of the estimation model, a CRC model, is inconsistent with a canonical model of a profit-maximizing farmer.
+With a model and simulation results, I demonstrate that, if a farmer behaves as described in the model developed in this paper, the estimation results for returns to technology are biased.
+I also demonstrate that, when there are time-variant shocks that farmers can observe before technology adoption, a simple solution used in the previous studies to control for such observed shocks does not fix the biased estimates.
+
+As clarified in Introduction, the purpose of this paper is not to criticize a specific paper.
+Indeed, the farmers are likely to behave in different ways in different contexts, and the canonical model developed in the paper may not reflect the reality in the study contexts in the previous research.
+Rather, the goal of this paper is to demonstrate the value of explicitly developing a theoretical model even in empirical studies to discuss the validity of identification assumptions.
+Whereas the model I present is greatly simplified to clearly convey the main points, different and more complex models can be more relevant in some contexts: potential model extensions can include endogenous input choices, utility maximization with a risk-averse farmer, correlated input prices with productivities, etc.).
+Different models should be considered and used as a guide for empirical analyses.
+
+Unfortunately, while I point out several issues in a CRC model, I fail to propose a solution to obtain consistent estimates of returns to technology.
+As pioneered by \citet{Suri11}, heterogeneous returns to technology are a promising avenue to explain slow adoption of productive technology in developing countries.
+Developing an improved CRC model for precise estimates of the returns is of great importance and is left for future research.
+
+\clearpage
+\bibliographystyle{apalike}
+\bibliography{crc}
+
+\appendix
+
+%\setcounter{figure}{0}
+%\setcounter{table}{0}
+%\renewcommand\thefigure{\Alph{section}.\arabic{figure}}
+%\renewcommand\thetable{\Alph{section}.\arabic{table}}
+  
+%\section{Appendix tables}\label{sec:appendix_table}
+
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand\thefigure{\Alph{section}.\arabic{figure}}
+\renewcommand\thetable{\Alph{section}.\arabic{table}}
+  
+\section{Appendix figures}\label{sec:appendix_figure}
+
+\begin{figure}[H]
+  \centering
+  \caption{Estimated $B$ and $\phi$ when a farmer ignores his absolute advantage in technology adoption decisions (true values: $B = 1$, $\phi = -0.44$)}
+  \includegraphics[width = 0.6\textwidth]{../Figures/noinp_nopm_B_phi.pdf}
+  \label{fig:noinp_nopm_B_phi}
+  \footnotesize
+  \begin{tablenotes}
+    \item Notes:
+      The figures show the estimated $B$ and $\phi$.
+      The red vertical lines show the true parameter values.
+  \end{tablenotes}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \caption{Biases in returns to technology without controlling for pre-decision shocks}
+  \includegraphics[width = 0.6\textwidth]{../Figures/covar_nopm_return_Z_ignore.pdf}
+  \label{fig:covar_nopm_return_Z_ignore}
+  \footnotesize
+  \begin{tablenotes}
+    \item Notes:
+      The figures show the differences between the estimated and true returns to technology by farmers' types.
+      Red vertical lines are for a 0 difference from the true return to technology.
+      Returns are defined as $B + \phi E[\theta_i | h_{i1}, h_{i2}]$, where $B$ is the difference in technology-specific productivity between new and traditional technologies, $\theta_i$ is farmer-specific comparative advantage.
+      Farmers are grouped into the following four categories based on their technology adoption histories:
+      never adopters: $h_{i1} = h_{i2} = 0$, 
+      early adopters: $h_{i1} = 1, \ h_{i2} = 0$, 
+      late adopters: $h_{i1} = 0, \ h_{i2} = 1$, and
+      always adopters: $h_{i1} = h_{i2} = 1$.
+      Since a hypothesis $\gamma_2 = \gamma_4$ was not rejected in more than half simulations, in this figure, I only show the results in which a hypothesis $\gamma_2 = \gamma_4$ is rejected at a 10\% significance level.
+  \end{tablenotes}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \caption{Estimated $\rho$ when there are pre-decision shocks (true value: $\rho = 2$)}
+  \includegraphics[width = 0.6\textwidth]{../Figures/covar_nopm_rho.pdf}
+  \label{fig:covar_nopm_rho}
+  \footnotesize
+  \begin{tablenotes}
+    \item Notes:
+      The figures show the estimated $\rho$.
+      The red vertical line shows the true parameter value.
+  \end{tablenotes}
+\end{figure}
+
+\section{Parameters for data simulation}
+
+\begin{align*}
+  &B^T = 0.3 + U[0, 0.1] \\
+  &B = 1 \\
+  &\sigma^{N2} = 3.5 \\ 
+  &\sigma^{T2} = 10.5 \\ 
+  &\sigma^{NT} = 6.0 \\ 
+  &\xi_{it}^N \sim N(0, 0.1) \\
+  &\xi_{it}^T \sim N(0, 0.1) \\
+  &\log C_{i1}^N \sim U[0, 1.1] \\
+  &\log C_{i2}^N \sim U[1.76, 2.86] \\
+  &\log C_{it}^T \sim N(0, 1.1) \\
+  &Z_{it} \sim N(0, 1) \\
+  &\rho = 2.0
+\end{align*}
+
+  
+\end{document}
+
+
+
