@@ -1,7 +1,8 @@
+git_dir="/Users/mizuhirosuzuki/Documents/GitHub/revisit_crc"
+
 simulation:
-	Rscript R/CRC_no_covariate.R
-	Rscript R/CRC_cov.R
-		$(data_dir) $(git_dir)
+	Rscript R/CRC_no_covariate.R $(git_dir)
+	Rscript R/CRC_cov.R $(git_dir)
 
 write_up:
 	cd Paper; \

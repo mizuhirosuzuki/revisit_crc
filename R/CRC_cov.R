@@ -1,4 +1,5 @@
-rm(list = ls())
+# R script to create the simulated results and figure in the paper
+# when there are covariates in the regression
 
 packages <- c(
   "tidyverse",
@@ -15,7 +16,9 @@ packages <- c(
 
 pacman::p_load(packages, character.only = TRUE)
 
-git_dir <- "~/Documents/GitHub/revisit_crc/"
+# Global setting ===============
+args <- commandArgs(trailingOnly = TRUE)
+git_dir <- args[1]
 
 data_simulate <- function(
   param, 
